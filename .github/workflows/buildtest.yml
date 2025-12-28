@@ -1,9 +1,13 @@
 name: Node.js CI # The name of your workflow
 
 on:
-  push:
-    branches: [ master ] # Trigger on pushes to the main branch
-
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy environment'
+        required: true
+        default: 'staging'
+        
 jobs:
   build:
     runs-on: ubuntu-latest # The operating system the job runs on
@@ -15,7 +19,7 @@ jobs:
       with:
         node-version: '20.x' # Specify the desired Node.js version
         cache: 'npm' # Caches dependencies to speed up subsequent runs
-    - name: Install dependencies
+    - name: Install dependencies and build
       run: |
         npm install 
         npm run build 
